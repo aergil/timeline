@@ -12,13 +12,17 @@ import (
 )
 
 func main() {
+	StartServer()
+	waitSignal()
+}
+
+func StartServer() {
 	router := httptreemux.New()
 	router.GET("/view/*file", staticHandler)
+	router.GET("/ws/events/:begin/:end", EventsHandler)
 
 	fmt.Println("server up ...")
 	go http.ListenAndServe(":8080", router)
-
-	waitSignal()
 }
 
 func waitSignal() {
@@ -40,17 +44,31 @@ func waitSignal() {
 func staticHandler(w http.ResponseWriter, r *http.Request, params map[string]string) {
 	prefix := "../../../../../timeline/"
 	file := params["file"]
-	fmt.Println("file requested : " + file)
+	fmt.Println("File requested : ", file)
 
 	data, err := ioutil.ReadFile(prefix + file)
 	if err != nil {
-		w.Write([]byte(err.Error()))
+		fmt.Println("not found ", file)
+		http.NotFound(w, r)
 		return
 	}
 
-	if strings.HasSuffix(file, ".css") {
-		w.Header().Set("Content-Type", "text/css")
+	configureMimeType(w, file)
+	w.Write(data)
+}
+
+func configureMimeType(w http.ResponseWriter, fileName string) {
+	type t struct {
+		extension string
+		mimeType  string
 	}
 
-	w.Write(data)
+	l := []t{t{".css", "text/css"}, t{".js", "text/javascript"}, t{".html", "text/html"}}
+
+	for _, t := range l {
+		if strings.HasSuffix(fileName, t.extension) {
+			w.Header().Set("Content-Type", t.mimeType)
+			return
+		}
+	}
 }
