@@ -42,7 +42,7 @@ func waitSignal() {
 }
 
 func staticHandler(w http.ResponseWriter, r *http.Request, params map[string]string) {
-	prefix := "../../../../../timeline/"
+	prefix := "./web/"
 	file := params["file"]
 	fmt.Println("File requested : ", file)
 

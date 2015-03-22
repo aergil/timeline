@@ -19,3 +19,14 @@ _testmain.go
 *.test
 *.prof
 
+#web
+logs/*
+!.gitkeep
+node_modules/
+bower_components/
+app/components/
+tmp
+.DS_Store
+.idea
+timeline.iml
+

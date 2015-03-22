@@ -1,0 +1,164 @@
+
+#navigation {
+    clear: both;
+/*    cursor: move;*/
+    width: 100%;
+    height: 400px;
+    position: relative;
+    overflow-x: scroll;
+    overflow-y: auto;
+}
+
+#content {
+    clear: both;
+    width: 100%;
+    height: 300px;
+    border-top: 1px solid #E3E3E3;
+    position: relative;
+}
+
+#timenav-background {
+    position: absolute;
+/*    cursor: move;*/
+    height: 158px;
+    float: left;
+    width: 80000px;
+    background-color: #E9E9E9;
+    z-index: 0;
+    box-shadow: 0px 0px 12px -2px rgba(0, 0, 0, 0.3) inset;
+}
+
+#timenav-line {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    width: 3px;
+    height: 154px;
+    background-color: rgba(0,136,204,0.4); /* #08C*/
+    z-index: 1;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);
+}
+
+#timenav-indicator-top {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    margin-left: -10px;
+    z-index: 202;
+    background-image: url('../resources/timeline.png?v4.4');
+    background-repeat: no-repeat;
+    background-position: -160px -48px;
+    width: 24px;
+    height: 14px;
+}
+
+#timenav-indicator-bottom {
+    position: absolute;
+    top: 147px;
+    left: 50%;
+    margin-left: -10px;
+    z-index: 202;
+    background-image: url('../resources/timeline.png?v4.4');
+    background-repeat: no-repeat;
+    background-position: -160px -61px;
+    width: 24px;
+    height: 24px;
+}
+
+#nav-years {
+    position: absolute;
+    top: 158px;
+    font-size: 12px;
+}
+
+#nav-years div {
+    position: absolute;
+    display: inline;
+    text-indent: -10px;
+    background-image: url('../resources/timeline.png?v4.4');
+    background-repeat: no-repeat;
+    background-position: -157px -25px;
+    padding-top: 8px;
+    line-height: 20px;
+    height: 10px;
+}
+
+.head {
+    vertical-align: middle;
+    width: 100%;
+    float: none;
+    margin: auto;
+    display: none;
+}
+
+.timeline-head {
+    display: table;
+    vertical-align: middle;
+    margin: auto;
+}
+/*
+.map {
+    border: 1px solid #333;
+    background-image: url('../resources/map.png');
+    width: 374px;
+    height: 280px;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.3);
+}
+
+.map-container {
+    display: table-cell;
+    padding: 20px;
+}
+
+.description {
+    padding: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    width: 500px;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: normal;
+}
+
+.description h2 {
+}
+
+.description h3 {
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: normal;
+    color: #999;
+}*/
+
+#elements div {
+    position: absolute;
+    border: 1px solid #f5f5f5;
+    /*background-color: #f5f5f5;*/
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.3);
+    z-index: 0;
+    height: 20px;
+}
+
+.ponctuel {
+    font-size: 12px;
+    line-height: 13px;
+    font-weight: normal;
+    position: absolute;
+    background-image: url('../resources/barrette.png');
+    background-repeat: repeat-y;
+    padding-left: 5px;
+    text-wrap: none;
+    word-break: keep-all;
+}
+
+.ponctuel .date {
+    color: #999;
+    font-size: 12px;
+    line-height: 15px;
+}
+

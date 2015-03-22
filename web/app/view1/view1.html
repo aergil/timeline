@@ -1,0 +1,20 @@
+
++<input type="range" value="1" max="1" min="0.1" step="0.1" ng-model="zoom" ng-change="changeDateMilieu()">-
+centré :<input type="text" ng-model="dateMilieu" ng-change="changeDateMilieu()" />
+<br/>
+début :<input type="text" ng-model="startDate" ng-change="changeBoundaryDate()" />
+fin :<input type="text" ng-model="endDate" ng-change="changeBoundaryDate()" />
+
+<div id="content">
+    <div id="navigation">
+        <div id="timenav-background">
+            <div id="elements"></div>
+            <div id="nav-years"></div>
+            <div id="ponctuels"></div>
+        </div>
+    </div>
+    <div id="timenav-line"></div>
+    <div id="timenav-indicator-top"></div>
+    <div id="timenav-indicator-bottom"></div>
+</div>
+
