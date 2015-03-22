@@ -12,17 +12,19 @@ angular.module('myApp.view1', ['ngRoute'])
     .controller('View1Ctrl', ['$scope','events', function ($scope,events) {
 
         $scope.zoom = 1;
-        $scope.dateMilieu = 1000;
+        $scope.dateMilieu = 0;
         $scope.startDate = 0;
         $scope.endDate = 2000;
+        $scope.startDateScreen = 0;
+        $scope.endDateScreen = 2000;
 
         var refStartDate = 0;
         var refEndDate = 2000;
         var panelWidth = $("#timenav-background").width();
 
         var ecartMax = 2000;
-        var startDate = 0;
-        var endDate = 2000;
+        var startDate = $scope.dateMilieu;
+        var endDate = $scope.endDate;
         var interval = endDate - startDate;
         var intervalPx = panelWidth / interval;
         var offsetLeft = $("#content").width() / 2 - 3;
@@ -52,11 +54,20 @@ angular.module('myApp.view1', ['ngRoute'])
         }
         init();
 
+
         function traceDates() {
+            var moduloInterval = 1;
+            var minInter = 60;//px
+            if (intervalPx < minInter){
+                moduloInterval = Math.floor(minInter / intervalPx);
+            }
+
             for (var i = 0; i < interval; i++) {
-                var position = intervalPx * i + offsetLeft;
-                var year = parseInt(startDate) + i;
-                $navYears.append("<div style='left:" + position + "px'>" + year + "</div>");
+                if(i % moduloInterval == 0){
+                    var position = intervalPx * i + offsetLeft;
+                    var year = parseInt(startDate) + i;
+                    $navYears.append("<div style='left:" + position + "px'>" + year + "</div>");
+                }
             }
         }
 
@@ -161,6 +172,20 @@ angular.module('myApp.view1', ['ngRoute'])
             init();
         }
 
+        $scope.changeBoundaryDateScreen = function () {
+            var screenWidth = screen.width;
+            var startDateScreen = parseInt($scope.startDateScreen == "" ? 0 : $scope.startDateScreen);
+            var endDateScreen = parseInt($scope.endDateScreen == "" ? 0 : $scope.endDateScreen);
+
+            var ratio = panelWidth / screenWidth;
+            var newEcart = Math.ceil((endDateScreen - startDateScreen) * ratio);
+            var newMilieu = Math.ceil(startDateScreen + ((endDateScreen - startDateScreen)/2))
+
+            $scope.startDate = newMilieu - (newEcart/2);
+            $scope.endDate = newMilieu + (newEcart/2);
+
+            $scope.changeBoundaryDate();
+        }
 
     }]);
 

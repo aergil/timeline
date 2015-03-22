@@ -6,12 +6,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
-type Events struct {
-	Id        bson.ObjectId `bson:"_id"`
+type Event struct {
+	Id        bson.ObjectId `bson:"_id,omitempty"`
 	Name      string        `json:"name"`
 	Start     int           `json:"start"`
 	End       int           `json:"end"`
@@ -31,15 +30,8 @@ func EventsHandler(w http.ResponseWriter, r *http.Request, params map[string]str
 		writeError(w, 400, "Error : one of the date are not number: "+params["start"]+params["end"], nil)
 	}
 
-	session, err := mgo.Dial("127.0.0.1")
-	if err != nil {
-		writeError(w, 500, "Error while creating session", err)
-		return
-	}
-
-	c := session.DB("timeline").C("events")
-	var events []Events
-	err = c.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}}).All(&events)
+	var events []Event
+	err := EventCollection.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}}).All(&events)
 	if err != nil {
 		writeError(w, 500, "Error while finding events", err)
 		return

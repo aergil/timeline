@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+	Init("127.0.0.1", "timeline", "events")
 	StartServer()
 	waitSignal()
 }
@@ -20,6 +21,7 @@ func StartServer() {
 	router := httptreemux.New()
 	router.GET("/view/*file", staticHandler)
 	router.GET("/ws/events/:start/:end", EventsHandler)
+	router.POST("/ws/events", AddEventsHandler)
 
 	fmt.Println("server up ...")
 	go http.ListenAndServe(":8080", router)

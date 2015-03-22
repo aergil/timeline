@@ -1,8 +1,10 @@
-
 +<input type="range" value="1" max="1" min="0.1" step="0.1" ng-model="zoom" ng-change="changeDateMilieu()">-
-centré :<input type="text" ng-model="dateMilieu" ng-change="changeDateMilieu()" />
-début :<input type="text" ng-model="startDate" ng-change="changeBoundaryDate()" />
-fin :<input type="text" ng-model="endDate" ng-change="changeBoundaryDate()" />
+centré :<input type="text" ng-model="dateMilieu" ng-change="changeDateMilieu()"/>
+début : <input type="text" ng-model="startDate" ng-change="changeBoundaryDate()"/>
+fin :   <input type="text" ng-model="endDate" ng-change="changeBoundaryDate()"/>
+<br/>
+début écran:<input type="text" ng-model="startDateScreen" ng-change="changeBoundaryDateScreen()"/>
+fin écran:  <input type="text" ng-model="endDateScreen" ng-change="changeBoundaryDateScreen()"/>
 
 <div id="content">
     <div id="navigation">
