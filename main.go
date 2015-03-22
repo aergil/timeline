@@ -19,7 +19,7 @@ func main() {
 func StartServer() {
 	router := httptreemux.New()
 	router.GET("/view/*file", staticHandler)
-	router.GET("/ws/events/:begin/:end", EventsHandler)
+	router.GET("/ws/events/:start/:end", EventsHandler)
 
 	fmt.Println("server up ...")
 	go http.ListenAndServe(":8080", router)
@@ -63,7 +63,11 @@ func configureMimeType(w http.ResponseWriter, fileName string) {
 		mimeType  string
 	}
 
-	l := []t{t{".css", "text/css"}, t{".js", "text/javascript"}, t{".html", "text/html"}}
+	l := []t{
+		t{".css", "text/css"},
+		t{".js", "text/javascript"},
+		t{".html", "text/html"},
+	}
 
 	for _, t := range l {
 		if strings.HasSuffix(fileName, t.extension) {

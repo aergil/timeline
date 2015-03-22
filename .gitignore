@@ -28,5 +28,5 @@ app/components/
 tmp
 .DS_Store
 .idea
-timeline.iml
+*.iml
 

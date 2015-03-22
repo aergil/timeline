@@ -43,7 +43,7 @@ angular.module('myApp.view1', ['ngRoute'])
         var elementsJson = [];
 
         function init(){
-            events.get(1,2,
+            events.get(startDate,endDate,
                 function(data){
                     elementsJson = data;
                     $scope.recalcul();
@@ -139,20 +139,26 @@ angular.module('myApp.view1', ['ngRoute'])
         $scope.changeDateMilieu = function (){
             var zoom = $scope.zoom;
             var ecartSelonZoom = (ecartMax/2 * zoom);
-            startDate = parseInt($scope.dateMilieu) - parseInt(ecartSelonZoom) ;
+            var dateMilieu = parseInt($scope.dateMilieu);
+            var ecartSelonZoom = parseInt(ecartSelonZoom);
+
+            startDate =  dateMilieu - ecartSelonZoom;
+            endDate = dateMilieu + ecartSelonZoom;
+
             $scope.startDate = startDate;
-            endDate = parseInt($scope.dateMilieu) + parseInt(ecartSelonZoom);
             $scope.endDate = endDate;
-            $scope.recalcul();
+
+            init();
         }
 
         $scope.changeBoundaryDate = function () {
-            startDate = $scope.startDate;
-            endDate = $scope.endDate;
-            $scope.dateMilieu = (parseInt(endDate) + parseInt(startDate)) / 2;
-            $scope.zoom = (parseInt(endDate) - parseInt(startDate)) / ecartMax;
+            startDate = parseInt($scope.startDate == "" ? 0 : $scope.startDate);
+            endDate = parseInt($scope.endDate == "" ? 0 : $scope.endDate);
 
-            $scope.recalcul();
+            $scope.dateMilieu = (endDate + startDate) / 2;
+            $scope.zoom = (endDate - startDate) / ecartMax;
+
+            init();
         }
 
 
