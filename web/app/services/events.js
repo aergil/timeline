@@ -11,6 +11,11 @@ angular.module('myApp.services', [])
 		});
 	};
 
+	events.getByName = function(val){
+		return	$http.get('/ws/events/byname/'+val)
+		.then(function(response){return response.data;});	
+	};
+
 	events.add = function(e){
 		$http.post('/ws/events', e).
 			success(function(data,status,headers,config){

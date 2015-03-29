@@ -22,6 +22,7 @@ func StartServer() {
 	router.GET("/view/*file", staticHandler)
 	router.GET("/ws/events/:start/:end", EventsHandler)
 	router.POST("/ws/events", AddEventsHandler)
+	router.GET("/ws/events/byname/:name", SearchEventsHandler)
 
 	fmt.Println("server up ...")
 	go http.ListenAndServe(":8080", router)

@@ -11,9 +11,15 @@ angular.module('myApp.view2', ['ngRoute'])
 
 .controller('View2Ctrl', ['$scope','events',function($scope, events) {
 
+	$scope.getEvents = function(val){return events.getByName(val);};
+	$scope.asyncEvent = undefined;
+
 	$scope.addEvent= function(){
-		var event = {"name": $scope.name, "start": $scope.start, "end": $scope.end};
-		events.add(event);
+		events.add($scope.asyncEvent);
+	}
+
+	$scope.addPonctuel = function(){
+		$scope.asyncEvent.ponctuels.push({});
 	}
 }
 ]);

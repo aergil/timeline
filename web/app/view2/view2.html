@@ -1,8 +1,20 @@
 <h1>Ajout d'un event</h1>
 
-<label>Name</label><input type="text" ng-model="name" />
-<label>Start</label><input type="number" ng-model="start" />
-<label>End</label><input type="number" ng-model="end" />
+<input type="text" ng-model="asyncEvent" 
+	placeholder="search" 
+	typeahead="event as event.name for event in getEvents($viewValue) | filter:{name:$viewValue}" 
+	typeahead-loading="loadingEvents" 
+	class="form-control">
+<i ng-show="loadingEvents" class="glyphicon glyphicon-refresh"></i>
+<label>Name</label><input type="text" ng-model="asyncEvent.name" />
+<label>Start</label><input type="number" ng-model="asyncEvent.start" />
+<label>End</label><input type="number" ng-model="asyncEvent.end" />
+
+<div ng-repeat="p in asyncEvent.ponctuels">
+	<label>Description</label><input type="text" ng-model="p.description" />
+	<label>Date</label><input type="number" ng-model="p.date" />
+</div>
+<input type="button" ng-click="addPonctuel()" value="Add">
 
 <input type="Submit" value="valider" ng-click="addEvent()" />
 

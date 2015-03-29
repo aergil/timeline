@@ -19,6 +19,8 @@ _testmain.go
 *.test
 *.prof
 
+*.swp
+
 #web
 logs/*
 !.gitkeep
