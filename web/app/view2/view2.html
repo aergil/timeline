@@ -1,24 +1,61 @@
-<h1>Ajout d'un event</h1>
+<div class="container">
+	<h1>Ajout d'un event</h1>
 
-<input type="text" ng-model="asyncEvent" 
-	placeholder="search" 
-	typeahead="event as event.name for event in getEvents($viewValue) | filter:{name:$viewValue}" 
-	typeahead-loading="loadingEvents" 
-	class="form-control">
-<i ng-show="loadingEvents" class="glyphicon glyphicon-refresh"></i>
-<label>Name</label><input type="text" ng-model="asyncEvent.name" />
-<label>Start</label><input type="number" ng-model="asyncEvent.start" />
-<label>End</label><input type="number" ng-model="asyncEvent.end" />
+	<form class="form">
+		<div class="row">
+			<div class="col-md-8">
+				<input type="text" ng-model="asyncEvent" 
+				placeholder="search" 
+				typeahead="event as event.name for event in getEvents($viewValue) | filter:{name:$viewValue}" 
+				typeahead-loading="loadingEvents" 
+				class="form-control">
+				<i ng-show="loadingEvents" class="glyphicon glyphicon-refresh"></i>
+			</div>
+			<div class="col-md-1 col-md-offset-3">
+				<button ng-click="create()" class="btn btn-default pull-right">New</button>
+			</div>
+		</div>
 
-<div ng-repeat="p in asyncEvent.ponctuels">
-	<label>Description</label><input type="text" ng-model="p.description" />
-	<label>Date</label><input type="number" ng-model="p.date" />
+		<div class="row form-group">
+
+			<div class="col-md-12">
+				<label>Name</label><input class="form-control" type="text" ng-model="asyncEvent.name" />
+			</div>
+			<div class="col-md-6">
+				<label>Start</label><input class="form-control" type="number" ng-model="asyncEvent.start" />
+			</div>
+
+			<div class="col-md-6">
+				<label>End</label><input class="form-control" type="number" ng-model="asyncEvent.end" />
+			</div>
+		</div>
+
+		<h3>Évenements ponctuels</h3>
+		<div ng-repeat="p in asyncEvent.ponctuels">
+			<div class="row form-group">
+				<div class="col-md-6">
+					<label>Description</label><input class="form-control" type="text" ng-model="p.description" />
+				</div>
+				<div class="col-md-4">
+					<label>Date</label><input class="form-control" type="number" ng-model="p.date" />
+				</div>
+				<div class="col-md-1 class="btn pull-right" ">
+					<label>&nbsp;</label><button ng-click="deletePonctuel(p)" class="btn btn-warning">delete</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-offset-11">
+			<button ng-click="addPonctuel()" class="btn btn-default pull-right">Add</button>
+		</div>
+
+		<div class="row">
+			<div class="col-md-offset-11 btn pull-right">
+				<button type="Submit" ng-click="addEvent()" class="btn btn-success">Valider</button>
+			</div>
+		</div>
+	</form>
 </div>
-<input type="button" ng-click="addPonctuel()" value="Add">
-
-<input type="Submit" value="valider" ng-click="addEvent()" />
-
-
 
 
 

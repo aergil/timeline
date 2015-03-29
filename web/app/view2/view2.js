@@ -14,12 +14,21 @@ angular.module('myApp.view2', ['ngRoute'])
 	$scope.getEvents = function(val){return events.getByName(val);};
 	$scope.asyncEvent = undefined;
 
+	$scope.create = function(){
+		$scope.asyncEvent = {name:"new",ponctuels:[]};
+	}
+
 	$scope.addEvent= function(){
 		events.add($scope.asyncEvent);
 	}
 
 	$scope.addPonctuel = function(){
 		$scope.asyncEvent.ponctuels.push({});
+	}
+
+	$scope.deletePonctuel = function(p){
+		var index = $scope.asyncEvent.ponctuels.indexOf(p);
+		$scope.asyncEvent.ponctuels.splice(index,1);
 	}
 }
 ]);
