@@ -113,3 +113,44 @@ func TestEventHandlerWithCategories(t *testing.T) {
 	}
 
 }
+
+func TestEventHandlerAddCategoriesWhenAddEvent(t *testing.T) {
+	Init("127.0.0.1", "timeline_tests", "events", "categories")
+	EventCollection.RemoveAll(bson.M{})
+	CategoriesCollection.RemoveAll(bson.M{})
+
+	recorder := httptest.NewRecorder()
+
+	eventjson := `{"name":"event1","start":2014,"end":2014,"ponctuels":[], "categories": ["Math","Philo"]}`
+	req, _ := http.NewRequest("POST", "http://localhost", strings.NewReader(string(eventjson)))
+	AddEventsHandler(recorder, req, nil)
+
+	eventjson = `{"name":"event2","start":2014,"end":2014,"ponctuels":[], "categories": ["Math","Physique"]}`
+	req, _ = http.NewRequest("POST", "http://localhost", strings.NewReader(string(eventjson)))
+	AddEventsHandler(recorder, req, nil)
+
+	eventjson = `{"name":"event3","start":2014,"end":2014,"ponctuels":[], "categories": []}`
+	req, _ = http.NewRequest("POST", "http://localhost", strings.NewReader(string(eventjson)))
+	AddEventsHandler(recorder, req, nil)
+
+	recorder2 := httptest.NewRecorder()
+	reqGet, _ := http.NewRequest("GET", "http://localhost", nil)
+	GetCategoriesHandler(recorder2, reqGet, nil)
+
+	if recorder2.Code != 200 {
+		t.Error("Code should be 200 but", recorder2.Code)
+	}
+
+	body, _ := ioutil.ReadAll(recorder2.Body)
+	categories := []struct {
+		Name string `json:"name"`
+	}{}
+	err := json.Unmarshal(body, &categories)
+	if err != nil {
+		t.Error("Error :", err)
+	}
+	if len(categories) != 3 {
+		t.Error("Error. got: ", string(body), len(categories))
+	}
+
+}

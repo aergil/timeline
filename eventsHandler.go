@@ -24,6 +24,18 @@ func AddEventsHandler(w http.ResponseWriter, r *http.Request, params map[string]
 	if err != nil {
 		writeError(w, http.StatusBadRequest, "Error : the event is not valid", err)
 	}
+
+	for _, value := range newEvent.Categories {
+		count, err := CategoriesCollection.Find(bson.M{"name": value}).Count()
+		if err != nil {
+			writeError(w, 500, "Error while inserting event", err)
+			return
+		}
+		if count == 0 {
+			CategoriesCollection.Insert(bson.M{"name": value})
+		}
+	}
+
 	if newEvent.Id.Hex() != "" {
 		fmt.Println("Update")
 		err = EventCollection.UpdateId(newEvent.Id, newEvent)
