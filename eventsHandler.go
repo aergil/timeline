@@ -26,14 +26,14 @@ func AddEventsHandler(w http.ResponseWriter, r *http.Request, params map[string]
 		writeError(w, http.StatusBadRequest, "Error : the event is not valid", err)
 	}
 
-	for _, value := range newEvent.Categories {
-		count, err := CategorieCollection.Find(bson.M{"name": value}).Count()
+	for _, value := range newEvent.Tags {
+		count, err := TagCollection.Find(bson.M{"name": value}).Count()
 		if err != nil {
 			writeError(w, 500, "Error while inserting event", err)
 			return
 		}
 		if count == 0 {
-			CategorieCollection.Insert(bson.M{"name": value})
+			TagCollection.Insert(bson.M{"name": value})
 		}
 	}
 
@@ -73,9 +73,9 @@ func SearchEventsHandler(w http.ResponseWriter, r *http.Request, params map[stri
 
 func GetEventsHandler(w http.ResponseWriter, r *http.Request, params map[string]string) {
 	fmt.Println("Events requested")
-	c := params["categories"]
-	categories := strings.Split(c, ",")
-	fmt.Println("categories: ", categories)
+	c := params["tags"]
+	tags := strings.Split(c, ",")
+	fmt.Println("tags: ", tags)
 	start, err1 := strconv.Atoi(params["start"])
 	end, err2 := strconv.Atoi(params["end"])
 	if err1 != nil || err2 != nil {
@@ -84,8 +84,8 @@ func GetEventsHandler(w http.ResponseWriter, r *http.Request, params map[string]
 
 	var events []Event
 	var err error
-	if len(categories) > 0 {
-		err = EventCollection.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}, "categories": bson.M{"$in": categories}}).All(&events)
+	if len(tags) > 0 {
+		err = EventCollection.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}, "tags": bson.M{"$in": tags}}).All(&events)
 	} else {
 		err = EventCollection.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}}).All(&events)
 	}

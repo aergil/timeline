@@ -7,14 +7,14 @@ import (
 )
 
 var EventCollection *mgo.Collection
-var CategorieCollection *mgo.Collection
+var TagCollection *mgo.Collection
 
-func Init(host, databaseName, eventCollectionName, categorieCollectionName string) {
+func Init(host, databaseName, eventCollectionName, tagCollectionName string) {
 	session, err := mgo.Dial(host)
 	if err != nil {
 		fmt.Println("Error while creating session", err)
 		panic(err)
 	}
 	EventCollection = session.DB(databaseName).C(eventCollectionName)
-	CategorieCollection = session.DB(databaseName).C(categorieCollectionName)
+	TagCollection = session.DB(databaseName).C(tagCollectionName)
 }

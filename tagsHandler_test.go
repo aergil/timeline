@@ -11,33 +11,33 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func TestGetCategories(t *testing.T) {
-	Init("127.0.0.1", "timeline_tests", "events", "categories")
-	CategorieCollection.RemoveAll(bson.M{})
+func TestGetTags(t *testing.T) {
+	Init("127.0.0.1", "timeline_tests", "events", "tags")
+	TagCollection.RemoveAll(bson.M{})
 
 	recorder := httptest.NewRecorder()
 
 	req1, _ := http.NewRequest("POST", "http://localhost", strings.NewReader(string(`{"name":"Philosophie"}`)))
-	AddCategorieHandler(recorder, req1, nil)
+	AddTagHandler(recorder, req1, nil)
 	req2, _ := http.NewRequest("POST", "http://localhost", strings.NewReader(string(`{"name":"Mathematique"}`)))
-	AddCategorieHandler(recorder, req2, nil)
+	AddTagHandler(recorder, req2, nil)
 
 	recorder2 := httptest.NewRecorder()
 	reqGet, _ := http.NewRequest("GET", "http://localhost", nil)
-	GetCategoriesHandler(recorder2, reqGet, nil)
+	GetTagsHandler(recorder2, reqGet, nil)
 
 	if recorder2.Code != 200 {
 		t.Error("Code should be 200 but", recorder2.Code)
 	}
 
 	body, _ := ioutil.ReadAll(recorder2.Body)
-	categories := []Categorie{}
-	err := json.Unmarshal(body, &categories)
+	tags := []Tag{}
+	err := json.Unmarshal(body, &tags)
 	if err != nil {
 		t.Error("Error :", err)
 	}
-	if len(categories) != 2 {
-		t.Error("Error. got: ", string(body), len(categories))
+	if len(tags) != 2 {
+		t.Error("Error. got: ", string(body), len(tags))
 	}
 
 }

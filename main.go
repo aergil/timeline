@@ -20,13 +20,13 @@ func main() {
 func StartServer() {
 	router := httptreemux.New()
 	router.GET("/view/*file", staticHandler)
-	router.GET("/ws/events/:start/:end/categories/*categories", GetEventsHandler)
-	router.GET("/ws/events/:start/:end/categories", GetEventsHandler)
+	router.GET("/ws/events/:start/:end/tags/*tags", GetEventsHandler)
+	router.GET("/ws/events/:start/:end/tags", GetEventsHandler)
 	router.GET("/ws/events/:start/:end", GetEventsHandler)
 	router.POST("/ws/events", AddEventsHandler)
 	router.GET("/ws/events/byname/:name", SearchEventsHandler)
-	router.GET("/ws/categories", GetCategoriesHandler)
-	router.POST("/ws/categories", AddCategorieHandler)
+	router.GET("/ws/tags", GetTagsHandler)
+	router.POST("/ws/tags", AddTagHandler)
 
 	fmt.Println("server up ...")
 	go http.ListenAndServe(":8080", router)
