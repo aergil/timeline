@@ -18,8 +18,11 @@
 
 		<div class="row form-group">
 
-			<div class="col-md-12">
+			<div class="col-md-6">
 				<label>Name</label><input class="form-control" type="text" ng-model="asyncEvent.name" />
+			</div>
+			<div class="col-md-6">
+					<label>Categories</label><tags-input keyProperty="name" ng-model="asyncEvent.categories"></tags-input>
 			</div>
 			<div class="col-md-6">
 				<label>Start</label><input class="form-control" type="number" ng-model="asyncEvent.start" />

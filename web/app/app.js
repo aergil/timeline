@@ -8,7 +8,8 @@ angular.module('myApp', [
   'myApp.services',
   'ui.bootstrap.typeahead',
   'ui.bootstrap.tpls',
-  'ui.bootstrap.transition'
+  'ui.bootstrap.transition',
+  'ngTagsInput'
 ]).
 	config(['$routeProvider', function($routeProvider) {
 	$routeProvider.otherwise({redirectTo: '/view1'});
