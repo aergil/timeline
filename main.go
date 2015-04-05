@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	Init("127.0.0.1", "timeline", "events", "categories")
+	Init("127.0.0.1", "timeline", "events", "tags")
 	StartServer()
 	waitSignal()
 }
@@ -26,6 +26,7 @@ func StartServer() {
 	router.POST("/ws/events", AddEventsHandler)
 	router.GET("/ws/events/byname/:name", SearchEventsHandler)
 	router.GET("/ws/tags", GetTagsHandler)
+	router.GET("/ws/tags/:query", GetTagsHandler)
 	router.POST("/ws/tags", AddTagHandler)
 
 	fmt.Println("server up ...")

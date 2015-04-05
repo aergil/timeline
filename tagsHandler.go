@@ -40,8 +40,16 @@ func AddTagHandler(w http.ResponseWriter, r *http.Request, params map[string]str
 }
 
 func GetTagsHandler(w http.ResponseWriter, r *http.Request, params map[string]string) {
+	query := params["query"]
 	tags := []Tag{}
-	err := TagCollection.Find(bson.M{}).All(&tags)
+
+	bsonQuery := bson.M{}
+	if query != "" {
+		fmt.Println("Query: ", query)
+		bsonQuery = bson.M{"name": bson.M{"$regex": ".*" + query + ".*"}}
+	}
+
+	err := TagCollection.Find(bsonQuery).All(&tags)
 	if err != nil {
 		writeError(w, 500, "Error while finding tags", err)
 		return

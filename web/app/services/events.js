@@ -1,4 +1,4 @@
-angular.module('myApp.services', [])
+angular.module('myApp.services.events', [])
 .factory('events', ['$http','$location', function($http,$location) {
 	var events = {};
 	events.get = function(begin,end,successCallback) {
