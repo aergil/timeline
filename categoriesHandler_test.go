@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -14,7 +13,7 @@ import (
 
 func TestGetCategories(t *testing.T) {
 	Init("127.0.0.1", "timeline_tests", "events", "categories")
-	CategoriesCollection.RemoveAll(bson.M{})
+	CategorieCollection.RemoveAll(bson.M{})
 
 	recorder := httptest.NewRecorder()
 
@@ -32,10 +31,7 @@ func TestGetCategories(t *testing.T) {
 	}
 
 	body, _ := ioutil.ReadAll(recorder2.Body)
-	categories := []struct {
-		Name string `json:"name"`
-	}{}
-	fmt.Println(string(body))
+	categories := []Categorie{}
 	err := json.Unmarshal(body, &categories)
 	if err != nil {
 		t.Error("Error :", err)

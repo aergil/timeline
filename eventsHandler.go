@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"gopkg.in/mgo.v2/bson"
 )
 
-// ceci est une fonction
 func AddEventsHandler(w http.ResponseWriter, r *http.Request, params map[string]string) {
 	defer r.Body.Close()
 
@@ -26,13 +27,13 @@ func AddEventsHandler(w http.ResponseWriter, r *http.Request, params map[string]
 	}
 
 	for _, value := range newEvent.Categories {
-		count, err := CategoriesCollection.Find(bson.M{"name": value}).Count()
+		count, err := CategorieCollection.Find(bson.M{"name": value}).Count()
 		if err != nil {
 			writeError(w, 500, "Error while inserting event", err)
 			return
 		}
 		if count == 0 {
-			CategoriesCollection.Insert(bson.M{"name": value})
+			CategorieCollection.Insert(bson.M{"name": value})
 		}
 	}
 
@@ -59,8 +60,47 @@ func SearchEventsHandler(w http.ResponseWriter, r *http.Request, params map[stri
 	if err != nil {
 		writeError(w, 500, "Error while searching events", err)
 	}
-	eventsJson, _ := json.Marshal(events)
-	fmt.Println("eventsJson: ", string(eventsJson))
 
+	eventsJson, err := marshalJson(events)
+	if err != nil {
+		writeError(w, 500, "Error while marshalling events", err)
+		return
+	}
+
+	fmt.Println("eventsJson: ", string(eventsJson))
 	w.Write(eventsJson)
+}
+
+func GetEventsHandler(w http.ResponseWriter, r *http.Request, params map[string]string) {
+	fmt.Println("Events requested")
+	c := params["categories"]
+	categories := strings.Split(c, ",")
+	fmt.Println("categories: ", categories)
+	start, err1 := strconv.Atoi(params["start"])
+	end, err2 := strconv.Atoi(params["end"])
+	if err1 != nil || err2 != nil {
+		writeError(w, 400, "Error : one of the date are not number: "+params["start"]+params["end"], nil)
+	}
+
+	var events []Event
+	var err error
+	if len(categories) > 0 {
+		err = EventCollection.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}, "categories": bson.M{"$in": categories}}).All(&events)
+	} else {
+		err = EventCollection.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}}).All(&events)
+	}
+	if err != nil {
+		writeError(w, 500, "Error while finding events", err)
+		return
+	}
+
+	result, err := marshalJson(events)
+	if err != nil {
+		writeError(w, 500, "Error while marshalling events", err)
+		return
+	}
+
+	fmt.Println(string(result))
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
 }

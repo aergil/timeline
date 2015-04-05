@@ -11,7 +11,6 @@ import (
 	"github.com/dimfeld/httptreemux"
 )
 
-// main function
 func main() {
 	Init("127.0.0.1", "timeline", "events", "categories")
 	StartServer()
@@ -21,9 +20,9 @@ func main() {
 func StartServer() {
 	router := httptreemux.New()
 	router.GET("/view/*file", staticHandler)
-	router.GET("/ws/events/:start/:end/categories/*categories", EventsHandler)
-	router.GET("/ws/events/:start/:end/categories", EventsHandler)
-	router.GET("/ws/events/:start/:end", EventsHandler)
+	router.GET("/ws/events/:start/:end/categories/*categories", GetEventsHandler)
+	router.GET("/ws/events/:start/:end/categories", GetEventsHandler)
+	router.GET("/ws/events/:start/:end", GetEventsHandler)
 	router.POST("/ws/events", AddEventsHandler)
 	router.GET("/ws/events/byname/:name", SearchEventsHandler)
 	router.GET("/ws/categories", GetCategoriesHandler)

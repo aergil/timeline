@@ -96,7 +96,7 @@ func TestEventHandlerWithCategories(t *testing.T) {
 
 	recorder2 := httptest.NewRecorder()
 	reqGet, _ := http.NewRequest("GET", "http://localhost", nil)
-	EventsHandler(recorder2, reqGet, map[string]string{"start": "0", "end": "2200", "categories": "Math,Philo"})
+	GetEventsHandler(recorder2, reqGet, map[string]string{"start": "0", "end": "2200", "categories": "Math,Philo"})
 
 	if recorder2.Code != 200 {
 		t.Error("Code should be 200 but", recorder2.Code)
@@ -117,7 +117,7 @@ func TestEventHandlerWithCategories(t *testing.T) {
 func TestEventHandlerAddCategoriesWhenAddEvent(t *testing.T) {
 	Init("127.0.0.1", "timeline_tests", "events", "categories")
 	EventCollection.RemoveAll(bson.M{})
-	CategoriesCollection.RemoveAll(bson.M{})
+	CategorieCollection.RemoveAll(bson.M{})
 
 	recorder := httptest.NewRecorder()
 
