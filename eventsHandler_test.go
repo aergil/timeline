@@ -76,6 +76,35 @@ func TestSearchEventHandler(t *testing.T) {
 
 }
 
+func TestEventHandlerWithoutTags(t *testing.T) {
+	Init("127.0.0.1", "timeline_tests", "events", "tags")
+	EventCollection.RemoveAll(bson.M{})
+
+	recorder := httptest.NewRecorder()
+	eventjson := `{"name":"event1","start":2014,"end":2014,"ponctuels":[], "tags": ["Math","Philo"]}`
+	req, _ := http.NewRequest("POST", "http://localhost", strings.NewReader(string(eventjson)))
+	AddEventsHandler(recorder, req, nil)
+
+	recorder2 := httptest.NewRecorder()
+	reqGet, _ := http.NewRequest("GET", "http://localhost", nil)
+	GetEventsHandler(recorder2, reqGet, map[string]string{"start": "0", "end": "2200"})
+
+	if recorder2.Code != 200 {
+		t.Error("Code should be 200 but", recorder2.Code)
+	}
+
+	body, _ := ioutil.ReadAll(recorder2.Body)
+	events := []Event{}
+	err := json.Unmarshal(body, &events)
+	if err != nil {
+		t.Error("Error :", err)
+	}
+	if len(events) != 1 {
+		t.Error("Error. got: ", string(body), len(events))
+	}
+
+}
+
 func TestEventHandlerWithTags(t *testing.T) {
 	Init("127.0.0.1", "timeline_tests", "events", "tags")
 	EventCollection.RemoveAll(bson.M{})

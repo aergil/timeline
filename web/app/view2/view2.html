@@ -23,7 +23,10 @@
 				<label>Name</label><input class="form-control" type="text" ng-model="asyncEvent.name" />
 			</div>
 			<div class="col-md-6">
-				<label>Categories</label><tags-input keyProperty="name" display-property="name" ng-model="tags"><auto-complete display-property="name" source="loadTags($query)"></auto-complete></tags-input>
+				<label>Tags</label>
+				<tags-input keyProperty="name" display-property="name" ng-model="tags">
+					<auto-complete display-property="name" source="loadTags($query)"></auto-complete>
+				</tags-input>
 			</div>
 			<div class="col-md-6">
 				<label>Start</label><input class="form-control" type="number" ng-model="asyncEvent.start" />

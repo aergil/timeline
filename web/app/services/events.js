@@ -10,6 +10,16 @@ angular.module('myApp.services.events', [])
 			alert(status);
 		});
 	};
+	
+	events.getWithTags = function(begin,end,tags,successCallback) {
+		$http.get('/ws/events/'+begin+'/'+end+'/tags/'+tags.join()).
+			success(function(data, status, headers, config) {
+			successCallback(data);
+		}).
+			error(function(data, status, headers, config) {
+			alert(status);
+		});
+	};
 
 	events.getByName = function(val){
 		return	$http.get('/ws/events/byname/'+val)

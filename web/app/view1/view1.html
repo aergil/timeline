@@ -1,37 +1,44 @@
 <div class="container">
 
-	<div style="display:none;">
-		<label>début</label><input type="text" ng-model="startDate" ng-change="changeBoundaryDate()"/>
-		<label>fin  </label><input type="text" ng-model="endDate" ng-change="changeBoundaryDate()"/>
-	</div>
+		<div style="display:none;">
+				<label>début</label><input type="text" ng-model="startDate" ng-change="changeBoundaryDate()"/>
+				<label>fin  </label><input type="text" ng-model="endDate" ng-change="changeBoundaryDate()"/>
+		</div>
 
-	<div class="row">
-		<div class="col-md-3">
-			<label>zoom   </label><input type="range" class="form-control" value="1" max="1" min="0.1" step="0.1" ng-model="zoom" ng-change="changeDateMilieu()">
+		<div class="row">
+				<div class="col-md-3">
+						<label>zoom   </label><input type="range" class="form-control" value="1" max="1" min="0.1" step="0.1" ng-model="zoom" ng-change="changeDateMilieu()">
+				</div>
+				<div class="col-md-3">
+						<label>début  </label><input type="text" class="form-control" ng-model="startDateScreen"  ng-change="changeBoundaryDateScreen()"/>
+				</div>
+				<div class="col-md-3">
+						<label>centre </label><input type="text" class="form-control" ng-model="dateMilieu" ng-change="changeDateMilieu()"/>
+				</div>
+				<div class="col-md-3">
+						<label>fin    </label><input type="text" class="form-control" ng-model="endDateScreen" ng-change="changeBoundaryDateScreen()"/>
+				</div>
 		</div>
-		<div class="col-md-3">
-			<label>début  </label><input type="text" class="form-control" ng-model="startDateScreen"  ng-change="changeBoundaryDateScreen()"/>
+		<div class="row">
+				<label>Tags</label>
+				<tags-input keyProperty="name" display-property="name" ng-model="tags" on-tag-added="onTagChanged()" on-tag-removed="onTagChanged()">
+					<auto-complete display-property="name" source="loadTags($query)"></auto-complete>
+				</tags-input>
 		</div>
-		<div class="col-md-3">
-			<label>centre </label><input type="text" class="form-control" ng-model="dateMilieu" ng-change="changeDateMilieu()"/>
-		</div>
-		<div class="col-md-3">
-			<label>fin    </label><input type="text" class="form-control" ng-model="endDateScreen" ng-change="changeBoundaryDateScreen()"/>
-		</div>
-	</div>
+
 </div>
 
 
 <div id="content">
-	<div id="navigation">
-		<div id="timenav-background">
-			<div id="elements"></div>
-			<div id="nav-years"></div>
-			<div id="ponctuels"></div>
+		<div id="navigation">
+				<div id="timenav-background">
+						<div id="elements"></div>
+						<div id="nav-years"></div>
+						<div id="ponctuels"></div>
+				</div>
 		</div>
-	</div>
-	<div id="timenav-line"></div>
-	<div id="timenav-indicator-top"></div>
-	<div id="timenav-indicator-bottom"></div>
+		<div id="timenav-line"></div>
+		<div id="timenav-indicator-top"></div>
+		<div id="timenav-indicator-bottom"></div>
 </div>
 

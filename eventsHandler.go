@@ -84,9 +84,11 @@ func GetEventsHandler(w http.ResponseWriter, r *http.Request, params map[string]
 
 	var events []Event
 	var err error
-	if len(tags) > 0 {
+	if len(tags) > 0 && tags[0] != "" {
+		fmt.Println("Get event with tags", len(tags))
 		err = EventCollection.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}, "tags": bson.M{"$in": tags}}).All(&events)
 	} else {
+		fmt.Println("Get event without tags")
 		err = EventCollection.Find(bson.M{"end": bson.M{"$gt": start}, "start": bson.M{"$lt": end}}).All(&events)
 	}
 	if err != nil {
